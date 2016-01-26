@@ -176,7 +176,7 @@ func PostRepoKey(c *gin.Context) {
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.String(500, "Error reading private key from body. %s", err)
-		return	
+		return
 	}
 	pkey := crypto.UnmarshalPrivateKey(body)
 	if pkey == nil {
@@ -239,6 +239,7 @@ func PostSecure(c *gin.Context) {
 	}
 
 	// encrypts using go-jose
+	// TODO: include checksum of drone.yml in repo_secrets.amber
 	out, err := crypto.Encrypt(string(in), key.Private)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
